@@ -1,1 +1,1 @@
-# ecom-payment-sdk
+# ecom-payment-sdk-java

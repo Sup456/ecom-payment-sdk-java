@@ -1,8 +1,6 @@
-/target/
-.DS_Store
-git
-deploy
-build*
+target/
+.mvn
+mvnw*
 
 ### STS ###
 .apt_generated
@@ -11,7 +9,6 @@ build*
 .project
 .settings
 .springBeans
-.sts4-cache
 
 ### IntelliJ IDEA ###
 .idea
@@ -20,21 +17,21 @@ build*
 *.ipr
 
 ### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/nbdist/
-/.nb-gradle/
-/build/
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
 
-### VS Code ###
-.vscode/
-*.tar.gz
+*.log*
+/.integration-scripts
 
-node_modules
-!/dist/test.html
-!/dist/test.js
-dist
-lib
-lib-style
-coverage
-es
+.DS_Store
+/*/target
+/log*
+/*/log
+
+files/
+old/
+src/test/resources/test.properties
