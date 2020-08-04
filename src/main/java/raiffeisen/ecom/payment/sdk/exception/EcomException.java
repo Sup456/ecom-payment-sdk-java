@@ -9,4 +9,9 @@ public class EcomException extends Exception {
     String code;
 
     String message;
+
+    @Override
+    public String getMessage() {
+        return code + ", " + message;
+    }
 }

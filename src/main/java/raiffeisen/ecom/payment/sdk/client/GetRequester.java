@@ -1,5 +1,6 @@
 package raiffeisen.ecom.payment.sdk.client;
 
+import raiffeisen.ecom.payment.sdk.exception.EcomException;
 import raiffeisen.ecom.payment.sdk.model.Response;
 import raiffeisen.ecom.payment.sdk.web.WebClient;
 
@@ -9,6 +10,8 @@ import java.util.Vector;
 
 public class GetRequester {
     private WebClient webClient;
+
+    private static final String AUTHORIZATION_ERROR = "Unauthorized";
 
     public GetRequester(WebClient client) {
         webClient = client;
@@ -22,7 +25,7 @@ public class GetRequester {
         return webClient;
     }
 
-    public Response request(String url, final Vector<String> pathParameters, final String secretKey) throws IOException {
+    public Response request(String url, final Vector<String> pathParameters, final String secretKey) throws EcomException, IOException {
         url = url.replace("?", pathParameters.get(0));
         if (url.contains("!")) {
             url = url.replace("!", pathParameters.get(1));
@@ -33,6 +36,13 @@ public class GetRequester {
         headers.put("charset", "UTF-8");
         headers.put("Authorization", "Bearer " + secretKey);
 
-        return webClient.request("GET", url, headers, null);
+        Response response = webClient.request("GET", url, headers, null);
+        if(response.getBody().equals(AUTHORIZATION_ERROR)) {
+            EcomException e = new EcomException();
+            e.setCode("AUTHORIZATION_FAILED");
+            e.setMessage("Ответ сервера: " + AUTHORIZATION_ERROR);
+            throw e;
+        }
+        return response;
     }
 }
