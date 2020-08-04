@@ -1,14 +1,18 @@
 package raiffeisen.ecom.payment.sdk.client;
 
+import raiffeisen.ecom.payment.sdk.exception.EcomException;
+import raiffeisen.ecom.payment.sdk.json.JsonBuilder;
+import raiffeisen.ecom.payment.sdk.json.JsonParser;
 import raiffeisen.ecom.payment.sdk.model.Response;
+import raiffeisen.ecom.payment.sdk.model.in.OrderInfo;
+import raiffeisen.ecom.payment.sdk.model.in.RefundInfo;
 import raiffeisen.ecom.payment.sdk.model.out.OrderId;
-import raiffeisen.ecom.payment.sdk.model.out.RefundInfo;
+import raiffeisen.ecom.payment.sdk.model.out.RefundRequest;
 import raiffeisen.ecom.payment.sdk.web.ApacheWebClient;
 import raiffeisen.ecom.payment.sdk.web.WebClient;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.List;
 import java.util.Vector;
 
 public class EcomClient implements Closeable {
@@ -54,24 +58,27 @@ public class EcomClient implements Closeable {
         this.getRequester = new GetRequester(this.webClient);
     }
 
-    public Response getOrderInfo(final OrderId orderId) throws IOException {
+    public OrderInfo getOrderInfo(final OrderId orderId) throws EcomException, IOException {
         Vector<String> pathParameters = new Vector<>();
         pathParameters.add(orderId.getOrderId());
-        return getRequester.request(ORDER_INFO_PATH, pathParameters, secretKey);
+        Response tempResponse = getRequester.request(domain + ORDER_INFO_PATH, pathParameters, secretKey);
+        return JsonParser.getObjectOrThrow(tempResponse.getBody(), OrderInfo.class, EcomException.class);
     }
 
-    public Response requestRefund(final RefundInfo refundInfo) throws IOException {
+    public RefundInfo requestRefund(final RefundRequest refundRequest) throws EcomException, IOException {
         Vector<String> pathParameters = new Vector<>();
-        pathParameters.add(refundInfo.getOrderId());
-        pathParameters.add(refundInfo.getRefundId());
-        return postRequester.request(REFUND_PATH, pathParameters, refundInfo.getAmount().toString(), secretKey);
+        pathParameters.add(refundRequest.getOrderId());
+        pathParameters.add(refundRequest.getRefundId());
+        Response tempResponse = postRequester.request(domain + REFUND_PATH, pathParameters, JsonBuilder.fromObject(refundRequest), secretKey);
+        return JsonParser.getObjectOrThrow(tempResponse.getBody(), RefundInfo.class, EcomException.class);
     }
 
-    public Response getRefundInfo(final RefundInfo refundInfo) throws IOException {
+    public RefundInfo getRefundInfo(final RefundRequest refundRequest) throws EcomException, IOException {
         Vector<String> pathParameters = new Vector<>();
-        pathParameters.add(refundInfo.getOrderId());
-        pathParameters.add(refundInfo.getRefundId());
-        return postRequester.request(REFUND_INFO_PATH, pathParameters, refundInfo.getAmount().toString(), secretKey);
+        pathParameters.add(refundRequest.getOrderId());
+        pathParameters.add(refundRequest.getRefundId());
+        Response tempResponse = postRequester.request(domain + REFUND_INFO_PATH, pathParameters, null, secretKey);
+        return JsonParser.getObjectOrThrow(tempResponse.getBody(), RefundInfo.class, EcomException.class);
     }
 
     @Override
