@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Vector;
 
-public class PostRequester {
+public class PostRequester extends Requester {
     private WebClient webClient;
 
     public PostRequester(WebClient client) {
@@ -24,23 +24,11 @@ public class PostRequester {
     }
 
     public Response request(String url, final Vector<String> pathParameters, String body, final String secretKey) throws EcomException, IOException {
-        url = url.replace("?", pathParameters.get(0));
-        if (url.contains("!")) {
-            url = url.replace("!", pathParameters.get(1));
-        }
 
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put("content-type", "application/json");
-        headers.put("charset", "UTF-8");
-        headers.put("Authorization", "Bearer " + secretKey);
+        String preparedUrl = prepareUrl(url, pathParameters);
+        HashMap<String, String> headers = prepareHeaders(secretKey);
 
-        Response response = webClient.request("POST", url, headers, body);
-        if(response.getBody().charAt(0) != '{') {
-            EcomException e = new EcomException();
-            e.setCode("HttpCode = " + response.getCode());
-            e.setMessage("Ответ сервера: " + response.getBody());
-            throw e;
-        }
-        return response;
+        Response response = webClient.request("POST", preparedUrl, headers, body);
+        return responseOrThrow(response);
     }
 }
