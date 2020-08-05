@@ -1,5 +1,6 @@
 package raiffeisen.ecom.payment.sdk;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import raiffeisen.ecom.payment.sdk.client.EcomClient;
 import raiffeisen.ecom.payment.sdk.exception.EcomException;
@@ -11,9 +12,13 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class RequestRefundTest {
+public class GetRefundInfoTest {
     // order was payed beforehand
-    private static final String ORDER_ID = "f857ca7a-bf6c-43be-b73b-33a2bfd3ea73";
+    private static final String ORDER_ID = "834d6957-ff10-4850-b298-cf1f1aaf0a27";
+
+    private static String REFUND_ID;
+
+    private static final String BAD_REFUND_ID = "notExistingRefund";
 
     private static final BigDecimal AMOUNT = BigDecimal.valueOf(0.01);
 
@@ -27,15 +32,34 @@ public class RequestRefundTest {
         return UUID.randomUUID().toString();
     }
 
-    @Test
-    public void refundRequestTest() {
+    @BeforeAll
+    public static void refundPayment() {
+        REFUND_ID = getRefundId();
         RefundRequest request = RefundRequest.creator().
                 orderId(ORDER_ID).
-                refundId(getRefundId()).
-                amount(AMOUNT).create();
+                refundId(REFUND_ID).
+                amount(AMOUNT).
+                create();
 
         try {
             RefundInfo refund = client.requestRefund(request);
+            assertEquals("SUCCESS", refund.getCode());
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            fail();
+        }
+    }
+
+    @Test
+    public void getRefundInfoTest() {
+        RefundRequest request = RefundRequest.creator().
+                orderId(ORDER_ID).
+                refundId(REFUND_ID).
+                create();
+
+        try {
+            RefundInfo refund = client.getRefundInfo(request);
             assertEquals(AMOUNT, refund.getAmount());
             assertEquals("SUCCESS", refund.getCode());
             String status = refund.getRefundStatus();
@@ -48,14 +72,14 @@ public class RequestRefundTest {
     }
 
     @Test
-    public void badRefundRequestTest() {
-        RefundRequest badRequest = RefundRequest.creator(). // without amount
+    public void getRefundInfoExceptionTest() {
+        RefundRequest badRequest = RefundRequest.creator().
                 orderId(ORDER_ID).
-                refundId(getRefundId()).
+                refundId(BAD_REFUND_ID).
                 create();
 
         try {
-            client.requestRefund(badRequest);
+            client.getRefundInfo(badRequest);
             fail();
         }
         catch (Exception e) {
