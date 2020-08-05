@@ -4,13 +4,11 @@ import org.junit.jupiter.api.Test;
 import raiffeisen.ecom.payment.sdk.client.EcomClient;
 import raiffeisen.ecom.payment.sdk.exception.EcomException;
 import raiffeisen.ecom.payment.sdk.model.in.OrderInfo;
-import raiffeisen.ecom.payment.sdk.model.in.additional.PaymentParams;
 import raiffeisen.ecom.payment.sdk.model.in.additional.Status;
 import raiffeisen.ecom.payment.sdk.model.in.additional.Transaction;
 import raiffeisen.ecom.payment.sdk.model.out.OrderId;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 

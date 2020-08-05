@@ -11,8 +11,6 @@ import java.util.Vector;
 public class GetRequester {
     private WebClient webClient;
 
-    private static final String AUTHORIZATION_ERROR = "Unauthorized";
-
     public GetRequester(WebClient client) {
         webClient = client;
     }
@@ -37,10 +35,10 @@ public class GetRequester {
         headers.put("Authorization", "Bearer " + secretKey);
 
         Response response = webClient.request("GET", url, headers, null);
-        if(response.getBody().equals(AUTHORIZATION_ERROR)) {
+        if(response.getBody().charAt(0) != '{') {
             EcomException e = new EcomException();
-            e.setCode("AUTHORIZATION_FAILED");
-            e.setMessage("Ответ сервера: " + AUTHORIZATION_ERROR);
+            e.setCode("HttpCode = " + response.getCode());
+            e.setMessage("Ответ сервера: " + response.getBody());
             throw e;
         }
         return response;

@@ -56,7 +56,6 @@ public class EcomUtils {
             Mac mac = Mac.getInstance(SHA_256_ALGORITHM);
             mac.init(secret);
             byte[] encoded = mac.doFinal(data.getBytes(ENCODING));
-            System.out.println(data + " " + Hex.encodeHexString(encoded));
             return Hex.encodeHexString(encoded);
         }
         catch (NoSuchAlgorithmException | InvalidKeyException e) {

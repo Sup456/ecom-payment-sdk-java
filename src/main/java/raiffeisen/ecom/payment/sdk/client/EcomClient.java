@@ -77,7 +77,7 @@ public class EcomClient implements Closeable {
         Vector<String> pathParameters = new Vector<>();
         pathParameters.add(refundRequest.getOrderId());
         pathParameters.add(refundRequest.getRefundId());
-        Response tempResponse = postRequester.request(domain + REFUND_INFO_PATH, pathParameters, null, secretKey);
+        Response tempResponse = getRequester.request(domain + REFUND_INFO_PATH, pathParameters, secretKey);
         return JsonParser.getObjectOrThrow(tempResponse.getBody(), RefundInfo.class, EcomException.class);
     }
 
