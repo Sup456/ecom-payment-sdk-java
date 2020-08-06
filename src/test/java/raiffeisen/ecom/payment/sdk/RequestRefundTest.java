@@ -1,9 +1,12 @@
 package raiffeisen.ecom.payment.sdk;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import raiffeisen.ecom.payment.sdk.client.EcomClient;
+import raiffeisen.ecom.payment.sdk.config.RequestRefundConfig;
 import raiffeisen.ecom.payment.sdk.exception.EcomException;
 import raiffeisen.ecom.payment.sdk.model.in.RefundInfo;
+import raiffeisen.ecom.payment.sdk.model.out.OrderId;
 import raiffeisen.ecom.payment.sdk.model.out.RefundRequest;
 
 import java.math.BigDecimal;
@@ -13,18 +16,31 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class RequestRefundTest {
     // order was payed beforehand
-    private static final String ORDER_ID = "f857ca7a-bf6c-43be-b73b-33a2bfd3ea73";
+    private static String ORDER_ID;
 
-    private static final BigDecimal AMOUNT = BigDecimal.valueOf(0.01);
+    private static BigDecimal AMOUNT;
 
-    private static final String TEST_SECRET_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." +
-            "eyJzdWIiOiIwMDAwMDE2ODAyMDAwMDItODAyMDAwMDIiLCJqdGkiOiIwNTA4MjJlMi1kOTliLTQ" +
-            "wYmEtYTU1Ny01NDZiYmYzN2FjNGUifQ.WVZSirCVgl1QdncZ8qZOrpGoB97qnRh7RT2f5UrNlko";
+    private static String TEST_SECRET_KEY;
 
-    private static final EcomClient client = new EcomClient(EcomClient.TEST_DOMAIN, TEST_SECRET_KEY);
+    private static EcomClient client;
 
     private static String getRefundId() {
         return UUID.randomUUID().toString();
+    }
+
+    private static RequestRefundConfig config = new RequestRefundConfig();
+
+    @BeforeAll
+    public static void getConfig() {
+        ORDER_ID = config.getOrderId();
+        AMOUNT = config.getAmount();
+        TEST_SECRET_KEY = config.getSecretKey();
+        client = new EcomClient(EcomClient.TEST_DOMAIN, TEST_SECRET_KEY);
+
+        assertNotEquals(null, ORDER_ID);
+        assertNotEquals(null, AMOUNT);
+        assertNotEquals(null, TEST_SECRET_KEY);
+        assertNotEquals(null, client);
     }
 
     @Test

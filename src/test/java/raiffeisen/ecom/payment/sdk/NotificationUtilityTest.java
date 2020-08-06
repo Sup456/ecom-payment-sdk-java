@@ -3,39 +3,57 @@ package raiffeisen.ecom.payment.sdk;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import raiffeisen.ecom.payment.sdk.config.NotificationUtilityConfig;
 import raiffeisen.ecom.payment.sdk.model.PaymentNotification;
 import raiffeisen.ecom.payment.sdk.model.in.additional.Transaction;
 import raiffeisen.ecom.payment.sdk.utils.EcomUtils;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class NotificationUtilityTest {
-    private final String API_SIGNATURE =
-            "85f6af2b5edd3995f44c369397c90d1b320ea276c24731f6c36a8d7036deb1fb";
+    private static String API_SIGNATURE;
 
-    private static final String BODY = "{\"event\":\"payment\",\"transaction\":{\"id\":58703,\"orderId\":\"ab9541ab-d083-495f-a3de-cb0fbd288739\",\"status\":{\"value\":\"SUCCESS\",\"date\":\"2020-08-05T00:38:11+03:00\"},\"paymentMethod\":\"acquiring\",\"paymentParams\":{\"rrn\":\"021800779531\",\"authCode\":\"072051\"},\"amount\":7,\"comment\":\"privetMir\",\"extra\":{\"lol\":\"qweqwe\"}}}";
+    private static String BODY;
 
-    private static final BigDecimal AMOUNT = BigDecimal.valueOf(7);
+    private static BigDecimal AMOUNT;
 
-    private static final String PUBLIC_ID = "000001680200002-80200002";
+    private static String PUBLIC_ID;
 
-    private static final String ORDER_ID = "ab9541ab-d083-495f-a3de-cb0fbd288739";
+    private static String ORDER_ID;
 
-    private static final String STATUS_VALUE = "SUCCESS";
+    private static String STATUS_VALUE;
 
-    private static final String STATUS_DATE = "2020-08-05T00:38:11+03:00";
+    private static String STATUS_DATE;
 
-    private static final String TEST_SECRET_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." +
-            "eyJzdWIiOiIwMDAwMDE2ODAyMDAwMDItODAyMDAwMDIiLCJqdGkiOiIwNTA4MjJlMi1kOTliLTQ" +
-            "wYmEtYTU1Ny01NDZiYmYzN2FjNGUifQ.WVZSirCVgl1QdncZ8qZOrpGoB97qnRh7RT2f5UrNlko";
+    private static String TEST_SECRET_KEY;
 
     private static PaymentNotification notification;
 
+    private static final NotificationUtilityConfig config = new NotificationUtilityConfig();
+
     @BeforeAll
-    public static void PaymentNotificationTest() {
+    public static void getConfig() {
+        API_SIGNATURE = config.getApiSignature();
+        BODY = config.getBody();
+        AMOUNT = config.getAmount();
+        PUBLIC_ID = config.getPublicId();
+        ORDER_ID = config.getOrderId();
+        STATUS_VALUE = config.getStatusValue();
+        STATUS_DATE = config.getStatusDate();
+        TEST_SECRET_KEY = config.getSecretKey();
+
+        assertNotEquals(null, API_SIGNATURE);
+        assertNotEquals(null, BODY);
+        assertNotEquals(null, AMOUNT);
+        assertNotEquals(null, PUBLIC_ID);
+        assertNotEquals(null, ORDER_ID);
+        assertNotEquals(null, STATUS_VALUE);
+        assertNotEquals(null, STATUS_DATE);
+        assertNotEquals(null, TEST_SECRET_KEY);
+
         try {
             notification = PaymentNotification.fromJson(BODY);
             Transaction transaction = notification.getTransaction();

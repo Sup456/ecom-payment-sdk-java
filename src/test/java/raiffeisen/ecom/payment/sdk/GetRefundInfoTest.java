@@ -3,6 +3,7 @@ package raiffeisen.ecom.payment.sdk;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import raiffeisen.ecom.payment.sdk.client.EcomClient;
+import raiffeisen.ecom.payment.sdk.config.RefundInfoConfig;
 import raiffeisen.ecom.payment.sdk.exception.EcomException;
 import raiffeisen.ecom.payment.sdk.model.in.RefundInfo;
 import raiffeisen.ecom.payment.sdk.model.out.RefundRequest;
@@ -14,26 +15,38 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GetRefundInfoTest {
     // order was payed beforehand
-    private static final String ORDER_ID = "834d6957-ff10-4850-b298-cf1f1aaf0a27";
+    private static String ORDER_ID;
 
     private static String REFUND_ID;
 
-    private static final String BAD_REFUND_ID = "notExistingRefund";
+    private static String BAD_REFUND_ID;
 
-    private static final BigDecimal AMOUNT = BigDecimal.valueOf(0.01);
+    private static BigDecimal AMOUNT;
 
-    private static final String TEST_SECRET_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." +
-            "eyJzdWIiOiIwMDAwMDE2ODAyMDAwMDItODAyMDAwMDIiLCJqdGkiOiIwNTA4MjJlMi1kOTliLTQ" +
-            "wYmEtYTU1Ny01NDZiYmYzN2FjNGUifQ.WVZSirCVgl1QdncZ8qZOrpGoB97qnRh7RT2f5UrNlko";
+    private static String TEST_SECRET_KEY;
 
-    private static final EcomClient client = new EcomClient(EcomClient.TEST_DOMAIN, TEST_SECRET_KEY);
+    private static EcomClient client;
 
     private static String getRefundId() {
         return UUID.randomUUID().toString();
     }
 
+    private static final RefundInfoConfig config = new RefundInfoConfig();
+
     @BeforeAll
-    public static void refundPayment() {
+    public static void getConfig() {
+        ORDER_ID = config.getOrderId();
+        BAD_REFUND_ID = config.getBadOrderId();
+        AMOUNT = config.getAmount();
+        TEST_SECRET_KEY = config.getSecretKey();
+        client = new EcomClient(EcomClient.TEST_DOMAIN, TEST_SECRET_KEY);
+
+        assertNotEquals(null, ORDER_ID);
+        assertNotEquals(null, BAD_REFUND_ID);
+        assertNotEquals(null, TEST_SECRET_KEY);
+        assertNotEquals(null, AMOUNT);
+        assertNotEquals(null, client);
+
         REFUND_ID = getRefundId();
         RefundRequest request = RefundRequest.creator().
                 orderId(ORDER_ID).
