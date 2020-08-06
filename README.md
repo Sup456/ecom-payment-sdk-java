@@ -164,7 +164,7 @@ boolean success = SbpUtils.checkNotificationSignature(amount,
 
 #### Использование альтернативного HTTP-клиента
 
-По умолчанию для HTTP-запросов используется Apache (класс `ApacheClient`), но можно воспользоваться любым другим, реализовав интерфейс `WebClient`:
+По умолчанию для HTTP-запросов используется Apache (класс `ApacheWebClient`), но можно воспользоваться любым другим, реализовав интерфейс `WebClient`:
 
 ~~~ java
 public interface WebClient extends Closeable {
