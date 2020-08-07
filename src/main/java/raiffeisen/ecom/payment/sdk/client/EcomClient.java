@@ -43,11 +43,7 @@ public class EcomClient implements Closeable {
     }
 
     public EcomClient(String domain, String secretKey) {
-        this.domain = domain;
-        this.secretKey = secretKey;
-        this.webClient = new ApacheWebClient();
-        this.postRequester = new PostRequester(this.webClient);
-        this.getRequester = new GetRequester(this.webClient);
+        this(domain, secretKey, new ApacheWebClient());
     }
 
     public EcomClient(String domain, String secretKey, WebClient customWebClient) {

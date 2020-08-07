@@ -1,12 +1,12 @@
 package raiffeisen.ecom.payment.sdk.model.in.additional;
 
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@Setter
+@RequiredArgsConstructor
 public class Status {
-    String value;
+    private String value;
 
-    String date;
+    private String date;
 }

@@ -1,13 +1,13 @@
 package raiffeisen.ecom.payment.sdk.model.in;
 
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 import raiffeisen.ecom.payment.sdk.model.in.additional.Transaction;
 
 @Getter
-@Setter
+@RequiredArgsConstructor
 public class OrderInfo {
-    String code;
+    private String code;
 
-    Transaction transaction;
+    private Transaction transaction;
 }

@@ -14,10 +14,7 @@ import java.util.Map;
 
 public class ApacheWebClient implements WebClient {
 
-    private static final String GET_METHOD = "GET";
-    private static final String POST_METHOD = "POST";
-
-    private static CloseableHttpClient httpClient = HttpClients.createDefault();
+    private static final CloseableHttpClient httpClient = HttpClients.createDefault();
 
     @Override
     public Response request(String method, String url, Map<String, String> headers, String entity) throws IOException {

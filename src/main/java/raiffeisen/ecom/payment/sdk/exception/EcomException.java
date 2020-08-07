@@ -1,10 +1,12 @@
 package raiffeisen.ecom.payment.sdk.exception;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@Setter
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class EcomException extends Exception {
     String code;
 

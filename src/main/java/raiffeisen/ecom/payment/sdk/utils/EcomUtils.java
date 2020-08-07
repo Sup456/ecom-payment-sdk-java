@@ -64,7 +64,7 @@ public class EcomUtils {
 
     }
 
-    public static String joinFields(String jsonString, String publicId) {
+    private static String joinFields(String jsonString, String publicId) {
         try {
             Transaction transaction = JsonParser.objectFromJson(jsonString, PaymentNotification.class).getTransaction();
             return joinFields(transaction, publicId);
@@ -74,7 +74,7 @@ public class EcomUtils {
         }
     }
 
-    public static String joinFields(String amount, String publicId, String orderId, String statusValue, String statusDate) {
+    private static String joinFields(String amount, String publicId, String orderId, String statusValue, String statusDate) {
         return amount +
                 SEPARATOR +
                 publicId +
@@ -86,7 +86,7 @@ public class EcomUtils {
                 statusDate;
     }
 
-    public static String joinFields(Transaction transaction, String publicId) {
+    private static String joinFields(Transaction transaction, String publicId) {
         return joinFields(transaction.getAmount().toString(),
                 publicId,
                 transaction.getOrderId(),

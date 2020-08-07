@@ -1,26 +1,26 @@
 package raiffeisen.ecom.payment.sdk.model.in.additional;
 
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 
 @Getter
-@Setter
+@RequiredArgsConstructor
 public class Transaction {
-    long id;
+    private long id;
 
-    String orderId;
+    private String orderId;
 
-    Status status;
+    private Status status;
 
-    String paymentMethod;
+    private String paymentMethod;
 
-    PaymentParams paymentParams;
+    private PaymentParams paymentParams;
 
-    BigDecimal amount;
+    private BigDecimal amount;
 
-    String comment;
+    private String comment;
 
-    Object extra;
+    private Object extra;
 }

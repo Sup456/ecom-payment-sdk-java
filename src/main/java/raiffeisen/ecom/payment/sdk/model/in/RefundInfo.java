@@ -1,16 +1,16 @@
 package raiffeisen.ecom.payment.sdk.model.in;
 
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 
 @Getter
-@Setter
+@RequiredArgsConstructor
 public class RefundInfo {
-    String code;
+    private String code;
 
-    BigDecimal amount;
+    private BigDecimal amount;
 
-    String refundStatus;
+    private String refundStatus;
 }

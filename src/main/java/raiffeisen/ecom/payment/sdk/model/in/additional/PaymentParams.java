@@ -1,12 +1,12 @@
 package raiffeisen.ecom.payment.sdk.model.in.additional;
 
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@Setter
+@RequiredArgsConstructor
 public class PaymentParams {
-    String rrn;
+    private String rrn;
 
-    String authCode;
+    private String authCode;
 }
