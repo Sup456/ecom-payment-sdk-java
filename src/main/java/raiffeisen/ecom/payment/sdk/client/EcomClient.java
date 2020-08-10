@@ -13,7 +13,7 @@ import raiffeisen.ecom.payment.sdk.web.WebClient;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class EcomClient implements Closeable {
     public static final String TEST_DOMAIN = "https://test.ecom.raiffeisen.ru";
@@ -55,14 +55,14 @@ public class EcomClient implements Closeable {
     }
 
     public OrderInfo getOrderInfo(final OrderId orderId) throws EcomException, IOException {
-        Vector<String> pathParameters = new Vector<>();
+        ArrayList<String> pathParameters = new ArrayList<>();
         pathParameters.add(orderId.getOrderId());
         Response tempResponse = getRequester.request(domain + ORDER_INFO_PATH, pathParameters, secretKey);
         return JsonParser.getObjectOrThrow(tempResponse.getBody(), OrderInfo.class, EcomException.class);
     }
 
     public RefundInfo requestRefund(final RefundRequest refundRequest) throws EcomException, IOException {
-        Vector<String> pathParameters = new Vector<>();
+        ArrayList<String> pathParameters = new ArrayList<>();
         pathParameters.add(refundRequest.getOrderId());
         pathParameters.add(refundRequest.getRefundId());
         Response tempResponse = postRequester.request(domain + REFUND_PATH, pathParameters, JsonBuilder.fromObject(refundRequest), secretKey);
@@ -70,7 +70,7 @@ public class EcomClient implements Closeable {
     }
 
     public RefundInfo getRefundInfo(final RefundRequest refundRequest) throws EcomException, IOException {
-        Vector<String> pathParameters = new Vector<>();
+        ArrayList<String> pathParameters = new ArrayList<>();
         pathParameters.add(refundRequest.getOrderId());
         pathParameters.add(refundRequest.getRefundId());
         Response tempResponse = getRequester.request(domain + REFUND_INFO_PATH, pathParameters, secretKey);

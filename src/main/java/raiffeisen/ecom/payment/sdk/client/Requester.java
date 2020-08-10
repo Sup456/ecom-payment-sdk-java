@@ -6,11 +6,11 @@ import raiffeisen.ecom.payment.sdk.model.Response;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class Requester {
 
-    protected static String prepareUrl(String url, Vector<String> pathParameters) {
+    protected static String prepareUrl(String url, ArrayList<String> pathParameters) {
         String preparedUrl = url.replace("?", pathParameters.get(0));
         if (url.contains("!")) {
             preparedUrl = preparedUrl.replace("!", pathParameters.get(1));
