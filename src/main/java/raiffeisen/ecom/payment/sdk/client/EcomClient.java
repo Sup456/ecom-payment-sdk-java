@@ -6,6 +6,7 @@ import raiffeisen.ecom.payment.sdk.json.JsonParser;
 import raiffeisen.ecom.payment.sdk.model.Response;
 import raiffeisen.ecom.payment.sdk.model.in.OrderInfo;
 import raiffeisen.ecom.payment.sdk.model.in.RefundInfo;
+import raiffeisen.ecom.payment.sdk.model.in.RegisterOrder;
 import raiffeisen.ecom.payment.sdk.model.out.OrderId;
 import raiffeisen.ecom.payment.sdk.model.out.RefundRequest;
 import raiffeisen.ecom.payment.sdk.web.ApacheWebClient;
@@ -22,6 +23,8 @@ public class EcomClient implements Closeable {
     private static final String ORDER_INFO_PATH = "/api/payments/v1/orders/?/transaction";
     private static final String REFUND_PATH = "/api/payments/v1/orders/?/refunds/!";
     private static final String REFUND_INFO_PATH = "/api/payments/v1/orders/?/refunds/!";
+    // TEST!!!
+    private static final String ORDER_REGISTER_PATH = "/api-test/payment/v1/order/";
 
     private final String domain;
 
@@ -59,6 +62,13 @@ public class EcomClient implements Closeable {
         pathParameters.add(orderId.getOrderId());
         Response tempResponse = getRequester.request(domain + ORDER_INFO_PATH, pathParameters, secretKey);
         return JsonParser.getObjectOrThrow(tempResponse.getBody(), OrderInfo.class, EcomException.class);
+    }
+
+    public Response registerOrder(final RegisterOrder registerOrder) throws EcomException, IOException {
+        ArrayList<String> pathParameters = new ArrayList<>();
+        Response tempResponse = postRequester.request(domain + ORDER_REGISTER_PATH,
+                pathParameters,JsonBuilder.fromObject(registerOrder), secretKey);
+        return tempResponse;
     }
 
     public RefundInfo requestRefund(final RefundRequest refundRequest) throws EcomException, IOException {

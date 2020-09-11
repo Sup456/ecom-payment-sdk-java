@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class Requester {
 
     protected static String prepareUrl(String url, ArrayList<String> pathParameters) {
+        if (pathParameters.isEmpty()) return url;
         String preparedUrl = url.replace("?", pathParameters.get(0));
         if (url.contains("!")) {
             preparedUrl = preparedUrl.replace("!", pathParameters.get(1));
