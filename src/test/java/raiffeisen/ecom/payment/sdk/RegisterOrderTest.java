@@ -1,14 +1,17 @@
 package raiffeisen.ecom.payment.sdk;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
 import raiffeisen.ecom.payment.sdk.client.EcomClient;
 import raiffeisen.ecom.payment.sdk.exception.EcomException;
+import raiffeisen.ecom.payment.sdk.json.JsonBuilder;
 import raiffeisen.ecom.payment.sdk.model.Response;
 import raiffeisen.ecom.payment.sdk.model.in.RegisterOrder;
 import raiffeisen.ecom.payment.sdk.model.in.additional.ExtensionAttributes;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class RegisterOrderTest {
@@ -17,9 +20,13 @@ public class RegisterOrderTest {
 
     @Test
     public void basicTest() {
+        HashMap<String, String> map = new HashMap<String,String>();
+        map.put("prop1", "string");
+        map.put("prop2", "string");
+
         RegisterOrder registerOrder = new RegisterOrder(BigDecimal.valueOf(5),
                 "basicComment",
-                new ExtensionAttributes("string","string","string"),
+                map,
                 getOrderNumber(),
                 "000001680200002-80200002");
 
