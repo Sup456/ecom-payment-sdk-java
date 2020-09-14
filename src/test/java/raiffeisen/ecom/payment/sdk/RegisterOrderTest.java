@@ -1,13 +1,10 @@
 package raiffeisen.ecom.payment.sdk;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
 import raiffeisen.ecom.payment.sdk.client.EcomClient;
 import raiffeisen.ecom.payment.sdk.exception.EcomException;
-import raiffeisen.ecom.payment.sdk.json.JsonBuilder;
 import raiffeisen.ecom.payment.sdk.model.Response;
 import raiffeisen.ecom.payment.sdk.model.in.RegisterOrder;
-import raiffeisen.ecom.payment.sdk.model.in.additional.ExtensionAttributes;
 
 import java.io.IOException;
 import java.math.BigDecimal;
